@@ -17,16 +17,28 @@ const db = mysql.createConnection(
 
 const allDepts = () => {
     const sql = "SELECT department.id as Department_ID, department.name as Department_Title FROM department"
-    db.query(sql, (err, result) => err ? console.log(err) : console.table(result))
+    db.query(sql, (err, result) => {
+    console.log(`\n\n\n`)
+    err ? console.log(err) : console.table(result)
+    console.log(`\n\n\n`)
+    })
 };
 
 const allRoles = () => {
-    const sql = "SELECT role.title as Title, role.id as Job_ID, role.salary as Salary, department.name as Department FROM role JOIN department ON role.department_id = department.id"
-    db.query(sql, (err, results) => err ? console.log(err) : console.table(results))
+    const sql = "SELECT role.title as Title, role.id as Job_ID, role.salary as Salary, department.name as Department FROM role JOIN department ON role.department_id = department.id ORDER BY role.id"
+    db.query(sql, (err, result) => {
+        console.log(`\n\n\n`)
+        err ? console.log(err) : console.table(result)
+        console.log(`\n\n\n`)
+        })
 }
 const allEmployees = () => {
     const sql = "SELECT employee.id as Employee_ID, employee.first_name as First_Name, employee.last_name as Last_Name, role.title as Job_Title, role.salary as Salary, employee.manager_id as Manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id"
-    db.query(sql, (err, results) => err ? console.log(err) : console.table(results))
+    db.query(sql, (err, result) => {
+        console.log(`\n\n\n`)
+        err ? console.log(err) : console.table(result)
+        console.log(`\n\n\n`)
+        })
 }
 
 const addDept = (inputName) => {
@@ -61,8 +73,7 @@ const removeRole = (roleID) => {
 }
 
 const addEmployee = (first, last, roleID, managerID) => {
-    const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-                VALUES ("${first}", "${last}", ${roleID}, ${managerID})`
+    const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${first}", "${last}", ${roleID}, ${managerID})`
     db.query(sql, (err, results) => err ? console.log(err) : console.log(`${first} ${last} successfully added to the employee database!`))
     allEmployees();
 }
@@ -105,6 +116,12 @@ const roleList = () => db.query("SELECT role.id as Id, role.title as Title FROM 
     }
     console.log(roleArray);
     return roleArray;
+
+    // if (err) {
+    //     console.log(err)
+    // } else {
+    //     results.send(JSON.stringify(results))
+    // }
 })
 
 const deptList = () => db.query("SELECT department.id as Id, department.name as Name FROM department", (err, results) =>{
@@ -117,7 +134,7 @@ const deptList = () => db.query("SELECT department.id as Id, department.name as 
             deptArray.push(deptName)
         })
     }
-    console.log(deptArray);
+    // console.log(deptArray);
     return deptArray;
 })
 
