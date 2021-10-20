@@ -1,7 +1,9 @@
 const mysql = require('mysql2');
 // const { identity } = require('rxjs');
 
-
+let roleArray = []
+let deptArray = []
+let employeeNameArray = []
 
 const db = mysql.createConnection(
     {
@@ -77,14 +79,63 @@ const updateEmployee = (empID, first, last, roleID, managerID) => {
     allEmployees();
 };
 
+const employeeList = () => db.query("SELECT employee.id as Id, employee.first_name as First, employee.last_name as Last FROM employee", (err, results) =>{
+    let employeeNameArray = [];
+    if (err) {
+        console.log(err)
+    } else {
+        results.forEach(employee => {
+            let employeeName = `${employee.Id} ${employee.First} ${employee.Last}`
+            employeeNameArray.push(employeeName)
+        })
+    }
+    console.log(employeeNameArray);
+    return employeeNameArray;
+})
+
+const roleList = () => db.query("SELECT role.id as Id, role.title as Title FROM role", (err, results) =>{
+    let roleArray = [];
+    if (err) {
+        console.log(err)
+    } else {
+        results.forEach(role => {
+            let roleTitle = `${role.Id} ${role.Title}`
+            roleArray.push(roleTitle)
+        })
+    }
+    console.log(roleArray);
+    return roleArray;
+})
+
+const deptList = () => db.query("SELECT department.id as Id, department.name as Name FROM department", (err, results) =>{
+    let deptArray = [];
+    if (err) {
+        console.log(err)
+    } else {
+        results.forEach(dept => {
+            let deptName = `${dept.Id} ${dept.Name}`
+            deptArray.push(deptName)
+        })
+    }
+    console.log(deptArray);
+    return deptArray;
+})
 
 
-allDepts();
-allRoles();
-allEmployees();
 
-updateEmployee(5, "James", "Crisp", 7, 1);
-updateEmployee(5, "Zac", "Goad", 6, null);
+// allDepts();
+// allRoles();
+// allEmployees();
+// employeeList();
+// roleList();
+// deptList();
+// console.log(employeeList());
+// console.log(roleList());
+// console.log(deptList());
+
+
+// updateEmployee(5, "James", "Crisp", 7, 1);
+// updateEmployee(5, "Zac", "Goad", 6, null);
 
 // addDept("test");
 // removeDept(8);
@@ -93,4 +144,23 @@ updateEmployee(5, "Zac", "Goad", 6, null);
 // removeRole(11);
 
 // addEmployee("David", "Marsh", 5, 5)
-// removeEmployee(16)
+// removeEmployee(16)+
+
+module.exports = {
+    allDepts,
+    allRoles,
+    allEmployees,
+    addDept,
+    removeDept,
+    addRole,
+    removeRole,
+    addEmployee,
+    removeEmployee,
+    updateEmployee,
+    employeeList,
+    roleList,
+    deptList,
+    employeeNameArray,
+    roleArray,
+    deptArray
+}
