@@ -241,7 +241,6 @@ const deleteDept = () => {
     .then((answers) => {
         let userChoice  = answers.addDept
             addDept(userChoice);
-            allDepts();
             returnMain();
         })
     .catch((err) => err ? console.log(err) : console.log('Something else broke.'))
