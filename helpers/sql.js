@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+require('dotenv').config();
 // const { identity } = require('rxjs');
 
 let roleArray = []
@@ -8,9 +9,9 @@ let employeeNameArray = []
 const db = mysql.createConnection(
     {
       host: 'localhost',
-      user: 'root',
-      password: 'thebestpassword',
-      database: 'buzzniss_db'
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
     },
     console.log(`Connected to the buzzniss_db database.`)
   );

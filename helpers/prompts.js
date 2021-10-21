@@ -18,12 +18,13 @@ const {
  } = require('./sql');
 
 const mysql = require('mysql2');
+require('dotenv').config();
 const db = mysql.createConnection(
     {
       host: 'localhost',
-      user: 'root',
-      password: 'thebestpassword',
-      database: 'buzzniss_db',
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       multipleStatements: true
     },
     console.log(`Connected to the buzzniss_db database.`)
@@ -388,7 +389,7 @@ const addEmpToDB = () => {
         {
             type: 'confirm',
             name: 'confMan',
-            Message: "Does this employee report to anyone?",
+            message: "Does this employee report to anyone?",
             default: false
         },
         {
