@@ -16,28 +16,28 @@ const db = mysql.createConnection(
   );
 
 const allDepts = () => {
-    const sql = "SELECT department.id as Department_ID, department.name as Department_Title FROM department"
+    const sql = "SELECT department.id AS Department_ID, department.name AS Department_Title FROM department"
     db.query(sql, (err, result) => {
-    console.log(`\n\n\n`)
+    console.log(`\n\n`)
     err ? console.log(err) : console.table(result)
-    console.log(`\n\n\n`)
+    console.log(`\n\n`)
     })
 };
 
 const allRoles = () => {
     const sql = "SELECT role.title as Title, role.id as Job_ID, role.salary as Salary, department.name as Department FROM role JOIN department ON role.department_id = department.id ORDER BY role.id"
     db.query(sql, (err, result) => {
-        console.log(`\n\n\n`)
+        console.log(`\n\n`)
         err ? console.log(err) : console.table(result)
-        console.log(`\n\n\n`)
+        console.log(`\n\n`)
         })
 }
 const allEmployees = () => {
-    const sql = "SELECT employee.id as Employee_ID, employee.first_name as First_Name, employee.last_name as Last_Name, role.title as Job_Title, role.salary as Salary, employee.manager_id as Manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id"
+    const sql = "SELECT employee.id as Employee_ID, employee.first_name as First_Name, employee.last_name as Last_Name, role.title as Job_Title, role.salary as Salary, CONCAT(manager.first_name, ' ', manager.last_name) as Manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY employee.id"
     db.query(sql, (err, result) => {
-        console.log(`\n\n\n`)
+        console.log(`\n\n`)
         err ? console.log(err) : console.table(result)
-        console.log(`\n\n\n`)
+        console.log(`\n\n`)
         })
 }
 

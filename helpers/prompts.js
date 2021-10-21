@@ -31,7 +31,8 @@ const db = mysql.createConnection(
 
 const inquirer = require('inquirer');
 
-const mainMenu = () => {inquirer.prompt([
+const mainMenu = () => {
+    inquirer.prompt([
     {
         type: 'list',
         name: 'mainMenu',
